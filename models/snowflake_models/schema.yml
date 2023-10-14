@@ -1,12 +1,27 @@
 version: 2
 
 sources:
-  - name: external_stage # required
-    description: 'Database details are included'
+  - name: snowplow
     database: AWS_S3_DB
     schema: PUBLIC
-    tables:
-      - name: FIN_TAB
-        description : "The tables under this "
-
+    loader: S3
+    loaded_at_field: collector_hour
     
+    tables:
+      - name: event_ext_tbl
+        description: "External table of Snowplow events stored as JSON files"
+        external:
+          location: "@AWS_STG_SNOWFLAKE"  # reference an existing external stage
+          file_format: "( type = csv )"      # fully specified here, or reference an existing file format
+          auto_refresh: true                  # requires configuring an event notification from Amazon S3 or Azure
+        
+        # all Snowflake external tables natively include a `metadata$filename` pseudocolumn
+        # and a `value` column (JSON blob-ified version of file contents), so there is no need to specify
+        # them here. you may optionally specify columns to unnest or parse from the file:
+        columns:
+          - name: date
+            data_type: varchar(255)
+            description: "Application ID"
+          - name: total_price
+            data_type: varchar(255)
+            description: "A visit / session index"

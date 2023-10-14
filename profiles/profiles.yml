@@ -1,0 +1,17 @@
+my-snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: wiyciar-wob80802
+
+      # User/password auth
+      user: AMOS34CLA
+      password: jxik3REG3di246C
+
+      role: ACCOUNTADMIN
+      database: AWS_S3_DB
+      warehouse: COMPUTE_WH
+      schema: PUBLIC
+      threads: 3
+  
