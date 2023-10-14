@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: external_stage # required
+    description: 'Database details are included'
+    database: AWS_S3_DB
+    schema: PUBLIC
+    tables:
+      - name: FIN_TAB
+        description : "The tables under this "
+
+    
